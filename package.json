@@ -2,7 +2,6 @@
   "name": "foursecure-dashboard",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
     "cra-template-redux": "2.0.0",
