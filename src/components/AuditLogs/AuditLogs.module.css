@@ -1,0 +1,24 @@
+.auditLogsContainer {
+  margin-top: 10px;
+}
+
+.logItem {
+  background-color: #fff;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-left: 4px solid #2980b9;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.action {
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.time {
+  color: #7f8c8d;
+}
