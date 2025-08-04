@@ -1,18 +1,17 @@
-// src/components/RoleFilter/RoleFilter.jsx
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFilterRole } from '../../features/users/userSlice';
 
 const RoleFilter = () => {
   const dispatch = useDispatch();
-  const selectedRole = useSelector((state) => state.users.selectedRole);
+  const role = useSelector((state) => state.users.filterRole);
 
   const handleChange = (e) => {
     dispatch(setFilterRole(e.target.value));
   };
 
   return (
-    <select value={selectedRole} onChange={handleChange}>
+    <select value={role} onChange={handleChange}>
       <option value="All">All</option>
       <option value="Admin">Admin</option>
       <option value="User">User</option>

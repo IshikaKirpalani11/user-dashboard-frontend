@@ -1,37 +1,46 @@
-// src/features/users/userSlice.js
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import usersData from '../../mockdata/users.json';
 
-const initialState = {
-  users: [
-    { id: 1, name: 'Alice', role: 'Admin', status: 'Active' },
-    { id: 2, name: 'Bob', role: 'User', status: 'Inactive' },
-    { id: 3, name: 'Charlie', role: 'Manager', status: 'Active' },
-  ],
-  selectedRole: 'All',
-  searchText: '',
-};
+export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
+  // Simulate API delay
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(usersData);
+    }, 500);
+  });
+});
 
 const userSlice = createSlice({
   name: 'users',
-  initialState,
+  initialState: {
+    list: [],
+    status: 'idle',
+    searchText: '',
+    filterRole: 'All',
+  },
   reducers: {
-    setUsers: (state, action) => {
-      state.users = action.payload;
-    },
-    setFilterRole: (state, action) => {
-      state.selectedRole = action.payload;
-    },
     setSearchText: (state, action) => {
       state.searchText = action.payload;
     },
-    toggleStatus: (state, action) => {
-      const user = state.users.find((u) => u.id === action.payload);
-      if (user) {
-        user.status = user.status === 'Active' ? 'Inactive' : 'Active';
-      }
+    setFilterRole: (state, action) => {
+      state.filterRole = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchUsers.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchUsers.fulfilled, (state, action) => {
+        state.list = action.payload;
+        state.status = 'succeeded';
+      })
+      .addCase(fetchUsers.rejected, (state) => {
+        state.status = 'failed';
+      });
   },
 });
 
-export const { setUsers, setFilterRole, setSearchText, toggleStatus } = userSlice.actions;
+export const { setSearchText, setFilterRole } = userSlice.actions;
+
 export default userSlice.reducer;

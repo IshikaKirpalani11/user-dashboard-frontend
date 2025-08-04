@@ -1,26 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import styles from './SearchBar.module.css';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { setSearchText } from '../../features/users/userSlice';
 
 const SearchBar = () => {
   const dispatch = useDispatch();
-  const [input, setInput] = useState('');
+  const searchText = useSelector((state) => state.users.searchText);
 
-  useEffect(() => {
-    const delay = setTimeout(() => {
-      dispatch(setSearchText(input));
-    }, 300); // debounce
-    return () => clearTimeout(delay);
-  }, [input, dispatch]);
+  const handleChange = (e) => {
+    dispatch(setSearchText(e.target.value));
+  };
 
   return (
     <input
-      className={styles.search}
       type="text"
-      placeholder="Search by name..."
-      value={input}
-      onChange={(e) => setInput(e.target.value)}
+      placeholder="Search users..."
+      value={searchText}
+      onChange={handleChange}
     />
   );
 };
